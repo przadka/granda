@@ -84,6 +84,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
-X/Twitter: [@przadka](https://x.com/przadka) - przadka@przadka.com
+X/Twitter: [@przadka](https://x.com/przadka)
 
-Github: [https://github.com/yourusername/granda](https://github.com/yourusername/granda)
+Github: [https://github.com/przadka/granda](https://github.com/przadka/granda)
