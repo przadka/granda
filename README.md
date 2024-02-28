@@ -46,7 +46,7 @@ from src.base_strategy import BaseStrategy
 class MyStrategy(BaseStrategy):
     def process_data(self):
         # Implementation for processing data
-        pass
+        return ...
 ```
 
 ### Registering and Executing a Strategy
