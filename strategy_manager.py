@@ -21,15 +21,15 @@ class StrategyManager:
         return strategy.process_data()
 
     def execute_strategies(self, names: List[str], dataset: Any) -> Dict[str, Any]:
-        """Execute multiple strategies by name on the given dataset, collecting results or errors."""
-        results: Dict[str, Any] = {}
-        for name in names:
-            try:
-                results[name] = self.execute_strategy(name, dataset)
-            except ValueError as e:
-                results[name] = str(e)
-        return results
+        """Execute multiple strategies by name on the given datase. Chain executions, passing the result of one strategy to the next, if needed. Return a the object return by the last strategy, or an error message if the strategy fails."""
 
+        result = dataset
+        for name in names:
+            result = self.execute_strategy(name, result)
+            if isinstance(result, dict) and "error" in result:
+                return result
+        return result
+        
     def list_strategies(self) -> List[str]:
         """List the names of all registered strategies."""
         return list(self.strategies.keys())
