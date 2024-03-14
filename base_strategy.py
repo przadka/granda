@@ -4,6 +4,8 @@ class BaseStrategy(ABC):
     def __init__(self, dataset):
         self.dataset = dataset
         assert "UID" in self.dataset.columns, "Dataset does not contain UID column"
+        self.in_tokens_count = 0
+        self.out_tokens_count = 0
 
     @property
     def result_column_name(self):
