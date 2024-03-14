@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 class BaseStrategy(ABC):
     def __init__(self, dataset):
         self.dataset = dataset
+        assert "UID" in self.dataset.columns, "Dataset does not contain UID column"
 
     @property
     def result_column_name(self):
