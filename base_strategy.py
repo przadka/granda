@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import tiktoken
 
 class BaseStrategy(ABC):
     def __init__(self, dataset):
@@ -23,3 +24,13 @@ class BaseStrategy(ABC):
         Returns the processed dataset.
         """
         pass
+
+    def get_tokens_count(self, text, model):
+        """
+        Returns the token count of the given text using the specified model.
+        """
+        #TODO Passing model should be removed, and the interaction with the model should be done using some adapter.
+        #TODO The strategy should not be aware of the implementation model details, when using any model to process the data.
+        
+        encoding = tiktoken.encoding_for_model(model)
+        return len(encoding.encode(text))
