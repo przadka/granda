@@ -38,6 +38,4 @@ class StrategyManager:
     
     def list_strategies(self) -> List[str]:
         """List the names of all registered strategies."""
-
-
-
+        return list(self.strategies.keys())
