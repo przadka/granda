@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
 
 class BaseStrategy(ABC):
-    def __init__(self, model, dataset):
-        self.model = model
-        self.dataset = dataset
-        assert "UID" in self.dataset.columns, "Dataset does not contain UID column"
+    """
+    Base class for all strategies. All strategies should inherit from this class.
+    Each strategy is create with a configuration dictionary and has a result column name.
+    """
+
+    def __init__(self, config):
+        self.config = config
         self.in_tokens_count = 0
         self.out_tokens_count = 0
 
@@ -18,9 +21,10 @@ class BaseStrategy(ABC):
         return f"{self.model}_{self.__class__.__name__.lower().replace('_', ' ')}_result"
 
     @abstractmethod
-    def process_data(self):
+    def process_data(self, dataset):
         """
         Process the dataset. The implementation can vary depending on whether the strategy prefers individual rows, batches, or the entire dataset.
         Returns the processed dataset.
         """
+        assert "UID" in self.dataset.columns, "Dataset does not contain UID column"
         pass

@@ -1,35 +1,43 @@
 from typing import Dict, List, Any
 
-class StrategyManager:
-    def __init__(self):
-        self.strategies: Dict[str, Dict[str, Any]] = {}
+from base_strategy import BaseStrategy
 
-    def register_strategy(self, name: str, strategy_cls: Any, description: str = "") -> None:
-        """Register a new strategy with a name, class, and optional description."""
-        self.strategies[name] = {"class": strategy_cls, "description": description}
+
+class StrategyManager:
+    """
+    Manages a collection of strategies, allowing them to be registered, executed, and listed.
+    """
+
+    def __init__(self):
+        self.strategies = {}
+    
+    def register_strategy(self, strategy: BaseStrategy, name: str,  description: str = "") -> None:
+        """Register a new strategy with the manager. Strategy is an instance of BaseStrategy."""
+        self.strategies[name] = strategy
 
     def get_strategy_description(self, name: str) -> str:
         """Get the description of a strategy by name, returning a default message if not found."""
-        return self.strategies.get(name, {}).get("description", "No description available.")
-
-    def execute_strategy(self, name: str, model: str, dataset: Any) -> Any:
+        strategy = self.strategies.get(name)
+        return strategy.get("description", "No description available")
+    
+    def execute_strategy(self, name: str, dataset: Any) -> Any:
         """Execute a strategy by name on the given dataset, raising an error if the strategy is not found."""
-        strategy_info = self.strategies.get(name)
-        if not strategy_info:
+        strategy = self.strategies.get(name)
+        if strategy is None:
             raise ValueError(f"Strategy '{name}' not found")
-        strategy = strategy_info['class'](model, dataset)
-        return strategy.process_data()
-
-    def execute_strategies(self, names: List[str], model: str, dataset: Any) -> Dict[str, Any]:
-        """Execute multiple strategies by name on the given datase. Chain executions, passing the result of one strategy to the next, if needed. Return a the object return by the last strategy, or an error message if the strategy fails."""
-
+        return strategy.process_data(dataset)
+    
+    def execute_strategies(self, names: List[str], dataset: Any) -> Dict[str, Any]:
+        """Execute multiple strategies by name on the given datase. 
+        Chain executions, passing the result of one strategy to the next, if needed. 
+        Return a the object return by the last strategy, or an error message if the strategy fails."""
         result = dataset
         for name in names:
-            result = self.execute_strategy(name, model, result)
-            if isinstance(result, dict) and "error" in result:
-                return result
+            result = self.execute_strategy(name, result)
         return result
-        
+    
     def list_strategies(self) -> List[str]:
         """List the names of all registered strategies."""
-        return list(self.strategies.keys())
+
+
+
