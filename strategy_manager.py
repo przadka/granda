@@ -33,6 +33,7 @@ class StrategyManager:
         Return a the object return by the last strategy, or an error message if the strategy fails."""
         result = dataset
         for name in names:
+            print(f"Executing strategy: {name}")
             result = self.execute_strategy(name, result)
         return result
     
