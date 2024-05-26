@@ -1,7 +1,6 @@
 from typing import Dict, List, Any
 
-from .base_strategy import BaseStrategy
-
+from granda.base_strategy import BaseStrategy
 
 class StrategyManager:
     """
